@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +24,18 @@ public class APIUserController {
     @GetMapping(path="/all")
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @GetMapping(path="/{id}")
+    public User getUserById(@PathVariable("id") long id) {
+        ArrayList<User> userList = new ArrayList<>();
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
     }
 
     @GetMapping()
