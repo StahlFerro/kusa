@@ -1,5 +1,8 @@
 package com.stahlferro.kusa.models;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +15,14 @@ public class KeyCard {
 //    private RandomService randomService;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "keycard-generator")
+    @GenericGenerator(
+            name = "keycard-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "sequence_name", value = "keycard_sequence")
+            }
+    )
     private long id;
 
     @NotEmpty(message = "Name must not be empty!")
@@ -47,6 +57,10 @@ public class KeyCard {
 
     public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }
 

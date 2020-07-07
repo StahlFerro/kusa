@@ -1,5 +1,8 @@
 package com.stahlferro.kusa.models;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +14,14 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "user-generator")
+    @GenericGenerator(
+            name = "user-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "sequence_name", value = "user_sequence")
+            }
+    )
     private long id;
 
     @NotEmpty(message = "Name must not be empty")
