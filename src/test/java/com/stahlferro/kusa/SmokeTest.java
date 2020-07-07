@@ -15,8 +15,7 @@ public class SmokeTest {
 
 	@Test
 	/* Ensures the application context always start */
-	void contextLoads() throws Exception {
+	void controllerIsNotNull() throws Exception {
 		assertThat(userController).isNotNull();
 	}
-
 }
