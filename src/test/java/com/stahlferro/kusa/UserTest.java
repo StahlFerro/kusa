@@ -25,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class UserTest {
 
-
     @Autowired
     private UserRepository userRepository;
 

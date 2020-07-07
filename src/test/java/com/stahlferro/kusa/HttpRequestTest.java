@@ -19,8 +19,8 @@ public class HttpRequestTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void grassCallShouldReturnGrass() throws Exception{
-        String url = String.format("http://localhost:%s/", port);
+    public void grassCallShouldReturnGrass() {
+        String url = String.format("http://localhost:%s/grass", port);
         assertThat(this.restTemplate.getForObject(url, String.class)).isEqualTo("grass");
     }
 }

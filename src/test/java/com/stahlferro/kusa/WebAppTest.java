@@ -20,9 +20,9 @@ public class WebAppTest {
 
     @Test
     public void grassCallShouldReturnGrass() throws Exception {
-        this.mockMvc.perform(get("/"))
+        this.mockMvc.perform(get("/grass"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(content().string(containsString("grass")));
     }
 }
