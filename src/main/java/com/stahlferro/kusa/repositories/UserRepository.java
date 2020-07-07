@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     public List<User> findByName(String name);
-    public List<User> findByClearanceLevel(int clearanceLevel);
+    public List<User> findByEmail(String email);
 }

@@ -19,7 +19,7 @@ public class WebLayerTest {
 
     @Test
     public void grassCallShouldReturnGrass() throws Exception {
-        this.mockMvc.perform(get("/grass"))
+        this.mockMvc.perform(get("/api/home/grass"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("grass")));

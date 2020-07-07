@@ -20,7 +20,7 @@ public class HttpRequestTest {
 
     @Test
     public void grassCallShouldReturnGrass() {
-        String url = String.format("http://localhost:%s/grass", port);
+        String url = String.format("http://localhost:%s/api/home/grass", port);
         assertThat(this.restTemplate.getForObject(url, String.class)).isEqualTo("grass");
     }
 }

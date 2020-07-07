@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @NotEmpty(message = "Name must not be empty")
@@ -20,7 +20,6 @@ public class User {
     @NotEmpty(message = "Email must not be empty")
     private String email;
 
-    private int clearanceLevel;
 
     public User () {}
 
@@ -36,9 +35,6 @@ public class User {
         return email;
     }
 
-    public int getClearanceLevel() {
-        return clearanceLevel;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -48,17 +44,12 @@ public class User {
         this.email = email;
     }
 
-    public void setClearanceLevel(int clearanceLevel) {
-        this.clearanceLevel = clearanceLevel;
-    }
-
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", clearanceLevel=" + clearanceLevel +
                 '}';
     }
 }
