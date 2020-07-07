@@ -2,6 +2,7 @@ package com.stahlferro.kusa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.stahlferro.kusa.models.User;
 import com.stahlferro.kusa.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,8 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 
 @DataJpaTest
 /*  Below annotation is IMPORTANT because by default, @DataJpaTest uses in memory H2 database for repo tests, in which
@@ -31,6 +34,18 @@ public class UserTest {
     @Test
     void injectedComponentsAreNotNull() throws Exception {
         assertThat(userRepository).isNotNull();
+    }
+
+    @Test
+    void userRepositorySavesUserToDatabase() throws Exception{
+        User user = new User();
+        user.setName("Alder Liu");
+        user.setEmail("aldliu12@email.com");
+        userRepository.save(user);
+        Optional<User> searchedUser = userRepository.findById(user.getId());
+        assertThat(searchedUser).isNotNull();
+        User savedUser = searchedUser.get();
+        assertThat(savedUser.getId()).isEqualTo(user.getId());
     }
 
 //    @Test
