@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,17 @@ public class APIKeyCardController {
         Optional<KeyCard> keyCard = keyCardRepository.findById(id);
         if (keyCard.isPresent()) {
             return keyCard.get();
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found");
+        }
+    }
+
+    @GetMapping(path="/{id}/description")
+    public String getKeyCardStringByid(@PathVariable("id") long id) {
+        Optional<KeyCard> keyCard = keyCardRepository.findById(id);
+        if (keyCard.isPresent()) {
+            return keyCard.get().toString();
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found");

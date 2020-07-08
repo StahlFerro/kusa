@@ -6,6 +6,8 @@ import com.stahlferro.kusa.models.User;
 import com.stahlferro.kusa.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -28,6 +30,8 @@ import java.util.Optional;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class UserTest {
 
+    private static final Logger log = LoggerFactory.getLogger(UserTest.class);
+
     @Autowired
     private UserRepository userRepository;
 
@@ -48,6 +52,18 @@ public class UserTest {
         assertThat(savedUser.getId()).isEqualTo(user.getId());
     }
 
+    @Test
+    void userIdIncrements() throws Exception {
+        log.info("haha");
+        long firstId = userRepository.getNextId();
+        User user = new User();
+        user.setName("Rayleigh");
+        user.setEmail("rlgf@email.com");
+        userRepository.save(user);
+        long secondId = userRepository.getNextId();
+        assertThat(secondId).isEqualTo(firstId + 1);
+
+    }
 //    @Test
 //    void testNum() throws Exception {
 //        assertThat(4).isEqualTo(4);

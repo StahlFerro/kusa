@@ -39,7 +39,6 @@ public class APIUserController {
 
     @GetMapping(path="/{id}/description")
     public String getUserStringByid(@PathVariable("id") long id) {
-        ArrayList<User> userList = new ArrayList<>();
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get().toString();
