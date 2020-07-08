@@ -59,6 +59,9 @@ public class APIUserController {
         return userRepository.save(user);
     }
 
+    @GetMapping(path="/nextid")
+    public long getNextId() { return userRepository.getNextId(); }
+
     @DeleteMapping(path="/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         Optional<User> userSrch = userRepository.findById(id);
