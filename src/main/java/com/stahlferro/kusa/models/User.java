@@ -1,5 +1,8 @@
 package com.stahlferro.kusa.models;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -12,6 +15,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Getter @Setter @ToString
 public class User {
     @Id
     @GeneratedValue(generator = "user-generator")
@@ -33,33 +37,33 @@ public class User {
 
     public User () {}
 
-    public long getId() {
-        return id;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "aUser{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", email='" + email + '\'' +
+//                '}';
+//    }
 }

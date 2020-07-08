@@ -62,7 +62,6 @@ public class UserTest {
         userRepository.save(user);
         long secondId = userRepository.getNextId();
         assertThat(secondId).isEqualTo(firstId + 1);
-
     }
 //    @Test
 //    void testNum() throws Exception {
