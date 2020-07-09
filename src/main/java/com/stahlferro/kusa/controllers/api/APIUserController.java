@@ -28,24 +28,23 @@ public class APIUserController {
 
     @GetMapping(path="/{id}")
     public User getUserById(@PathVariable("id") long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user.get();
-        }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
+        return user;
+//        Optional<User> user = userRepository.findById(id);
+//        if (user.isPresent()) {
+//            return user.get();
+//        }
+//        else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+//        }
     }
 
     @GetMapping(path="/{id}/description")
     public String getUserStringByid(@PathVariable("id") long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user.get().toString();
-        }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
+        return user.toString();
     }
 
     @GetMapping()
