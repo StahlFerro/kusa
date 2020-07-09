@@ -34,24 +34,16 @@ public class APIKeyCardController {
 
     @GetMapping(path="/{id}")
     public KeyCard getKeyCardById(@PathVariable("id") long id) {
-        Optional<KeyCard> keyCard = keyCardRepository.findById(id);
-        if (keyCard.isPresent()) {
-            return keyCard.get();
-        }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found");
-        }
+        KeyCard keyCard = keyCardRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found"));
+        return keyCard;
     }
 
     @GetMapping(path="/{id}/description")
     public String getKeyCardStringByid(@PathVariable("id") long id) {
-        Optional<KeyCard> keyCard = keyCardRepository.findById(id);
-        if (keyCard.isPresent()) {
-            return keyCard.get().toString();
-        }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found");
-        }
+        KeyCard keyCard = keyCardRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found"));
+        return keyCard.toString();
     }
 
     @PostMapping(path="/add")

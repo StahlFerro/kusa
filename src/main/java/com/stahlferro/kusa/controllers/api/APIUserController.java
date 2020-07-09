@@ -62,15 +62,10 @@ public class APIUserController {
 
     @DeleteMapping(path="/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
-        Optional<User> userSrch = userRepository.findById(id);
-        if (userSrch.isPresent()) {
-            User user = userSrch.get();
-            String deletionMsg = String.format("Deleted %s", user.toString());
-            userRepository.delete(user);
-            return deletionMsg;
-        }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
+        String deletionMsg = String.format("Deleted %s", user.toString());
+        userRepository.delete(user);
+        return deletionMsg;
     }
 }
