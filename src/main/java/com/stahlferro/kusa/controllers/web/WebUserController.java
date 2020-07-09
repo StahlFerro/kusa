@@ -32,16 +32,12 @@ public class WebUserController {
 
     @GetMapping(path="/{id}")
     public String getUserById(@PathVariable("id") long id, Model model) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         ArrayList<User> userList = new ArrayList<>();
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            userList.add(user.get());
-            model.addAttribute("users", userList);
-            return "users";
-        }
-        else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
+        userList.add(user);
+        model.addAttribute("users", userList);
+        return "users";
     }
 
 }
