@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Barnacle Web</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css" type="text/css"/>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <a class="button" href="/user/all">Back</a>
+        <form action="#" th:action="@{/user/update/{id}(id=${user.id})}" th:object="${user}" method="post">
+            <label class="label" for="name">Name</label>
+            <input class="input" type="text" th:field="*{name}" id="name" placeholder="Name">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <label class="label" for="email">Email</label>
+            <input class="input" type="text" th:field="*{email}" id="email" placeholder="Email">
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <br/>
+            <input class="button" type="submit" value="Update User">
+        </form>
+    </div>
+</section>
+</body>
+</html>

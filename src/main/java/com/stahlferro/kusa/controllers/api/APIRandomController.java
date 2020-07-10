@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping(path = "/api/random")
+@RequestMapping("/api/random")
 public class APIRandomController {
     private final RandomService randomService;
 

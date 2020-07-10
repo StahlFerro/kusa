@@ -27,26 +27,26 @@ public class APIKeyCardController {
         this.randomService = service;
     }
 
-    @GetMapping(path="/all")
+    @GetMapping("/all")
     public List<KeyCard> getAllUsers() {
         return keyCardRepository.findAll();
     }
 
-    @GetMapping(path="/{id}")
+    @GetMapping("/{id}")
     public KeyCard getKeyCardById(@PathVariable("id") long id) {
         KeyCard keyCard = keyCardRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found"));
         return keyCard;
     }
 
-    @GetMapping(path="/{id}/description")
+    @GetMapping("/{id}/description")
     public String getKeyCardStringByid(@PathVariable("id") long id) {
         KeyCard keyCard = keyCardRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "KeyCard not found"));
         return keyCard.toString();
     }
 
-    @PostMapping(path="/add")
+    @PostMapping("/add")
     public KeyCard addKeyCard(@Valid @RequestBody KeyCard keyCard) {
         keyCard.setUuid(randomService.generateRandomUUID());
         return keyCardRepository.save(keyCard);
