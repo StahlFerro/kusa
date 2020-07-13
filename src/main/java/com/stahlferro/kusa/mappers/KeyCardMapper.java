@@ -1,11 +1,11 @@
 package com.stahlferro.kusa.mappers;
 
-import com.stahlferro.kusa.models.User;
-import com.stahlferro.kusa.models.UserDto;
+import com.stahlferro.kusa.models.KeyCard;
+import com.stahlferro.kusa.models.KeyCardDto;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
+public interface KeyCardMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUserFromDto(UserDto dto, @MappingTarget User user);
+    void updateKeyCardFromDto(KeyCardDto dto, @MappingTarget KeyCard keyCard);
 }

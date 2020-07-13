@@ -4,6 +4,7 @@ import com.stahlferro.kusa.mappers.UserMapper;
 import com.stahlferro.kusa.models.User;
 import com.stahlferro.kusa.models.UserDto;
 import com.stahlferro.kusa.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +14,19 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class APIUserController {
 
     @Autowired
-    public UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserMapper userMapper;
+    private UserMapper userMapper;
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
+    private List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -62,11 +64,12 @@ public class APIUserController {
     @GetMapping("/nextid")
     public long getNextId() { return userRepository.getNextId(); }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Object> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserDto newUser) {
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Object> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
-        userMapper.updateUserFromDto(newUser, user);
+        log.info(String.format("User: %s\nUserDto: %s", user.toString(), userDto.toString()));
+        userMapper.updateUserFromDto(userDto, user);
         userRepository.save(user);
         return ResponseEntity.ok(user.toString() + " updated!");
     }
