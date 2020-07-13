@@ -2,6 +2,7 @@ package com.stahlferro.kusa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.stahlferro.kusa.mappers.UserMapper;
 import com.stahlferro.kusa.models.User;
 import com.stahlferro.kusa.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -52,17 +53,17 @@ public class UserTest {
         assertThat(savedUser.getId()).isEqualTo(user.getId());
     }
 
-    @Test
-    void userIdIncrements() throws Exception {
-        log.info("haha");
-        long firstId = userRepository.getNextId();
-        User user = new User();
-        user.setName("Rayleigh");
-        user.setEmail("rlgf@email.com");
-        userRepository.save(user);
-        long secondId = userRepository.getNextId();
-        assertThat(secondId).isEqualTo(firstId + 1);
-    }
+//    @Test
+//    void userIdIncrements() throws Exception {
+//        log.info("haha");
+//        long firstId = userRepository.getNextId();
+//        User user = new User();
+//        user.setName("Rayleigh");
+//        user.setEmail("rlgf@email.com");
+//        userRepository.save(user);
+//        long secondId = userRepository.getNextId();
+//        assertThat(secondId).isEqualTo(firstId + 1);
+//    }
 //    @Test
 //    void testNum() throws Exception {
 //        assertThat(4).isEqualTo(4);

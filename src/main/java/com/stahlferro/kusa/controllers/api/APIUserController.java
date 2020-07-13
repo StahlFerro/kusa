@@ -1,32 +1,34 @@
 package com.stahlferro.kusa.controllers.api;
 
+import com.stahlferro.kusa.mappers.UserMapper;
 import com.stahlferro.kusa.models.User;
+import com.stahlferro.kusa.models.UserDto;
 import com.stahlferro.kusa.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
-@RequestMapping(path="/api/user")
+@RequestMapping("/api/user")
 public class APIUserController {
 
     @Autowired
     public UserRepository userRepository;
 
-    @GetMapping(path="/all")
+    @Autowired
+    public UserMapper userMapper;
+
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    @GetMapping(path="/{id}")
+    @GetMapping("/{id}")
     public User getUserById(@PathVariable("id") long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
@@ -40,7 +42,7 @@ public class APIUserController {
 //        }
     }
 
-    @GetMapping(path="/{id}/description")
+    @GetMapping("/{id}/description")
     public String getUserStringByid(@PathVariable("id") long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
@@ -52,15 +54,24 @@ public class APIUserController {
         return userRepository.findByName(name);
     }
 
-    @PostMapping(path="/add")
+    @PostMapping("/add")
     public User addUser(@Valid @RequestBody User user) {
         return userRepository.save(user);
     }
 
-    @GetMapping(path="/nextid")
+    @GetMapping("/nextid")
     public long getNextId() { return userRepository.getNextId(); }
 
-    @DeleteMapping(path="/delete/{id}")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Object> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserDto newUser) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
+        userMapper.updateUserFromDto(newUser, user);
+        userRepository.save(user);
+        return ResponseEntity.ok(user.toString() + " updated!");
+    }
+
+    @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
