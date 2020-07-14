@@ -57,15 +57,16 @@ public class APIUserController {
     }
 
     @PostMapping("/add")
-    public User addUser(@Valid @RequestBody User user) {
-        return userRepository.save(user);
+    public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
+        userRepository.save(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @GetMapping("/nextid")
     public long getNextId() { return userRepository.getNextId(); }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Object> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
+    public ResponseEntity<?> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid User Id: " + id));
         log.info(String.format("User: %s\nUserDto: %s", user.toString(), userDto.toString()));

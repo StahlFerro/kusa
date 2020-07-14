@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.containsString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class WebAppTest {
+public class HomeSpringBootTest {
     @Autowired
     private MockMvc mockMvc;
 

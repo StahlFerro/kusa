@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(APIRandomController.class)
-public class RandomTest {
+public class RandomAPITest {
     @Autowired
     private MockMvc mockMvc;
 
