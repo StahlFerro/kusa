@@ -56,18 +56,28 @@ public class APIKeyCardController {
     }
 
     @PostMapping("/add")
-    public KeyCard addKeyCard(@Valid @RequestBody KeyCard keyCard) {
+    public ResponseEntity<?> addKeyCard(@Valid @RequestBody KeyCard keyCard) {
         keyCard.setUuid(randomService.generateRandomUUID());
-        return keyCardRepository.save(keyCard);
+        keyCardRepository.save(keyCard);
+        return new ResponseEntity<>(keyCard, HttpStatus.CREATED);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity partialUpdateKeyCard(@PathVariable("id") long id, @RequestBody KeyCardDto keyCardDto) {
+    public ResponseEntity<?> partialUpdateKeyCard(@PathVariable("id") long id, @RequestBody KeyCardDto keyCardDto) {
         KeyCard keyCard = keyCardRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid KeyCard Id: " + id));
         log.info(String.format("KeyCard: %s\nKeyCardDto: %s", keyCard.toString(), keyCardDto.toString()));
         keyCardMapper.updateKeyCardFromDto(keyCardDto, keyCard);
         keyCardRepository.save(keyCard);
         return ResponseEntity.ok(keyCard.toString() + " updated!");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteKeyCard(@PathVariable("id") long id) {
+        KeyCard keyCard = keyCardRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid KeyCard Id: " + id));
+        String deletionMsg = String.format("Deleted %s", keyCard.toString());
+        keyCardRepository.delete(keyCard);
+        return deletionMsg;
     }
 }

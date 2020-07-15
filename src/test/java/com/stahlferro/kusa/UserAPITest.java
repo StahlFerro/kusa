@@ -31,7 +31,6 @@ public class UserAPITest {
     @Autowired
     private MockMvc mockMvc;
 
-    @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
     @Test
     public void postUserAPIShouldCreateUserThenDeleteIt() throws Exception {
         String newUser = new JSONObject()
@@ -89,6 +88,12 @@ public class UserAPITest {
                 .content(newEmail)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
+
+        this.mockMvc.perform(get("/api/user/" + savedUserId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.name").value(savedUserJSON.get("name")))
+                .andExpect(jsonPath("$.email").value("schwarz@rhodesisland.com"));
 
         this.mockMvc.perform(delete("/api/user/delete/" + savedUserId))
                 .andExpect(status().isOk());
