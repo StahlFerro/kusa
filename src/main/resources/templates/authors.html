@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Barnacle Web</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css" type="text/css"/>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <table class="table">
+            <tr th:if ="${author.docs.empty}">
+                <td>No books available</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <th>First publish year</th>
+                <th>E-book Count</th>
+            </tr>
+            <tr th:each="doc : ${author.docs}">
+                <td th:text="${doc.title}"/>
+                <td class="has-text-centered" th:text="${doc.first_publish_year}"/>
+                <td class="has-text-right" th:text="${doc.ebook_count_i}"/>
+            </tr>
+        </table>
+    </div>
+</section>
+</body>
+</html>
