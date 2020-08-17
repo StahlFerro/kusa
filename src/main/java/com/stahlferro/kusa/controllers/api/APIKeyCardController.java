@@ -25,9 +25,6 @@ import java.util.Optional;
 @RequestMapping("/api/keycard")
 public class APIKeyCardController {
 
-    @Autowired
-    private KeyCardRepository keyCardRepository;
-
     private KeyCardService keyCardService;
 
     @Autowired
