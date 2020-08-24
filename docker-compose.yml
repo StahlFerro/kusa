@@ -48,7 +48,7 @@ services:
       - /data/mysql
 
 
-  volteye-main:
+  kusa-main:
     image: stahlferro/kusa-docker
     depends_on:
       - mysql-database-kusa
