@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: kusa-main
+  name: kusa-main
+spec:
+  containers:
+  - env:
+    - name: SPRING_DATASOURCE_PASSWORD
+      value: toor
+    - name: SPRING_DATASOURCE_URL
+      value: jdbc:mysql://mysql-database-kusa:3306/kusaDB?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    - name: SPRING_DATASOURCE_USERNAME
+      value: kusauser
+    image: stahlferro/kusa-docker
+    imagePullPolicy: "IfNotPresent"
+    name: kusa-main
+    ports:
+    - containerPort: 8080
+    resources: {}
+  hostname: kusa-host
+  restartPolicy: OnFailure
+status: {}

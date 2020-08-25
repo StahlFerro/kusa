@@ -1,0 +1,1 @@
+kubectl apply -f 'kusa-main-pod.yaml,kusa-main-service.yaml,mysql-database-kusa-claim0-persistentvolumeclaim.yaml,mysql-database-kusa-deployment.yaml,mysql-database-kusa-service.yaml'

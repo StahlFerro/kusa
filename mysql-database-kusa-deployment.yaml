@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Program Files\Kubernetes\kompose.exe convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mysql-database-kusa
+  name: mysql-database-kusa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mysql-database-kusa
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Program Files\Kubernetes\kompose.exe convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql-database-kusa
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: kusaDB
+        - name: MYSQL_PASSWORD
+          value: toor
+        - name: MYSQL_ROOT_PASSWORD
+          value: toor
+        - name: MYSQL_USER
+          value: kusauser
+        image: mysql:latest
+        imagePullPolicy: "IfNotPresent"
+        name: mysql-database-kusa
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+        - mountPath: /data/mysql
+          name: mysql-database-kusa-claim0
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: mysql-database-kusa-claim0
+        persistentVolumeClaim:
+          claimName: mysql-database-kusa-claim0
+status: {}
