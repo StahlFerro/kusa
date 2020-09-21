@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${KUSA_DB_URL}
+    username: ${KUSA_DB_USERNAME}
+    password: ${KUSA_DB_PASSWORD}
+  data:
+    rest:
+      detection-strategy: annotated
+  jpa:
+    hibernate:
+      ddl-auto: update
