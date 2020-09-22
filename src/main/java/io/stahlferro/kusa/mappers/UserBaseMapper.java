@@ -7,7 +7,8 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserBaseMapper {
-    @Mapping(source = "password", target = "passwordHash")
+    @Mapping(source = "password", target = "passwordHash", qualifiedByName = "hashPassword")
+    UserBase createUserFromDto(UserBaseDto dto);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUserFromDto(UserBaseDto dto, @MappingTarget UserBase userBase);
     @Named("hashPassword")

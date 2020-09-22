@@ -6,6 +6,7 @@ import io.stahlferro.kusa.models.KeyCard;
 import io.stahlferro.kusa.models.KeyCardDto;
 import io.stahlferro.kusa.models.UserBase;
 import io.stahlferro.kusa.models.UserBaseDto;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.assertj.core.api.Assertions.assertThat;
 
 
+@Slf4j
 @AutoConfigureMockMvc
 public class MapperTest {
     private final UserBaseMapper userMapper = Mappers.getMapper(UserBaseMapper.class);
@@ -26,7 +28,12 @@ public class MapperTest {
 
     @Test
     public void userDtoPasswordShouldEncrypt() throws Exception {
-
+        UserBaseDto userDto = new UserBaseDto();
+        userDto.setLoginName("Wysen");
+        userDto.setPassword("abcdefgh12345");
+        UserBase user = userMapper.createUserFromDto(userDto);
+        log.info(user.toString());
+        assertThat(user.getPasswordHash()).isNotEqualTo(userDto.getPassword());
     }
 
     @Test
