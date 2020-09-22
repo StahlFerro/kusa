@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import io.stahlferro.kusa.controllers.api.APIKeyCardController;
 import io.stahlferro.kusa.controllers.api.APIUserController;
 import io.stahlferro.kusa.mappers.UserMapper;
-import io.stahlferro.kusa.repositories.UserRepository;
+import io.stahlferro.kusa.repositories.UserBaseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +20,7 @@ public class AutowiringTest {
 	private APIKeyCardController keyCardController;
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserBaseRepository userBaseRepository;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -30,7 +30,7 @@ public class AutowiringTest {
 	void controllerIsNotNull() throws Exception {
 		assertThat(userController).isNotNull();
 		assertThat(keyCardController).isNotNull();
-		assertThat(userRepository).isNotNull();
+		assertThat(userBaseRepository).isNotNull();
 		assertThat(userMapper).isNotNull();
 	}
 }

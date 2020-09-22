@@ -2,8 +2,8 @@ package io.stahlferro.kusa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.stahlferro.kusa.models.User;
-import io.stahlferro.kusa.repositories.UserRepository;
+import io.stahlferro.kusa.models.UserBase;
+import io.stahlferro.kusa.repositories.UserBaseRepository;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,28 +20,28 @@ import java.util.Optional;
     currently, Kusa does not have a H2 db as its dependency
 */
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-public class UserJPATest {
+public class UserBaseJPATest {
 
-    private static final Logger log = LoggerFactory.getLogger(UserJPATest.class);
+    private static final Logger log = LoggerFactory.getLogger(UserBaseJPATest.class);
 
     @Autowired
-    private UserRepository userRepository;
+    private UserBaseRepository userBaseRepository;
 
     @Test
     void injectedComponentsAreNotNull() throws Exception {
-        assertThat(userRepository).isNotNull();
+        assertThat(userBaseRepository).isNotNull();
     }
 
     @Test
     void userRepositorySavesUserToDatabase() throws Exception{
-        User user = new User();
-        user.setName("Alder Liu");
-        user.setEmail("aldliu12@email.com");
-        userRepository.save(user);
-        Optional<User> searchedUser = userRepository.findById(user.getId());
+        UserBase userBase = new UserBase();
+        userBase.setName("Alder Liu");
+        userBase.setEmail("aldliu12@email.com");
+        userBaseRepository.save(userBase);
+        Optional<UserBase> searchedUser = userBaseRepository.findById(userBase.getId());
         assertThat(searchedUser).isNotNull();
-        User savedUser = searchedUser.get();
-        assertThat(savedUser.getId()).isEqualTo(user.getId());
+        UserBase savedUserBase = searchedUser.get();
+        assertThat(savedUserBase.getId()).isEqualTo(userBase.getId());
     }
 
 //    @Test

@@ -4,8 +4,8 @@ import io.stahlferro.kusa.mappers.KeyCardMapper;
 import io.stahlferro.kusa.mappers.UserMapper;
 import io.stahlferro.kusa.models.KeyCard;
 import io.stahlferro.kusa.models.KeyCardDto;
-import io.stahlferro.kusa.models.User;
-import io.stahlferro.kusa.models.UserDto;
+import io.stahlferro.kusa.models.UserBase;
+import io.stahlferro.kusa.models.UserBaseDto;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,15 @@ public class MapperTest {
 
     @Test
     public void userDtoShouldUpdateUserEntity() throws Exception {
-        User user = new User();
-        user.setName("Malcolm");
-        user.setEmail("malc@email.com");
-        UserDto userDto = new UserDto();
-        userDto.setName("Wright");
-        userDto.setEmail("wright@email.com");
-        userMapper.updateUserFromDto(userDto, user);
-        assertThat(user.getName()).isEqualTo(userDto.getName());
-        assertThat(user.getEmail()).isEqualTo(userDto.getEmail());
+        UserBase userBase = new UserBase();
+        userBase.setName("Malcolm");
+        userBase.setEmail("malc@email.com");
+        UserBaseDto userBaseDto = new UserBaseDto();
+        userBaseDto.setName("Wright");
+        userBaseDto.setEmail("wright@email.com");
+        userMapper.updateUserFromDto(userBaseDto, userBase);
+        assertThat(userBase.getName()).isEqualTo(userBaseDto.getName());
+        assertThat(userBase.getEmail()).isEqualTo(userBaseDto.getEmail());
     }
 
     @Test

@@ -1,8 +1,8 @@
 package io.stahlferro.kusa.controllers.api;
 
 import io.stahlferro.kusa.mappers.UserMapper;
-import io.stahlferro.kusa.models.User;
-import io.stahlferro.kusa.models.UserDto;
+import io.stahlferro.kusa.models.UserBase;
+import io.stahlferro.kusa.models.UserBaseDto;
 import io.stahlferro.kusa.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,48 +26,48 @@ public class APIUserController {
     public APIUserController(UserService userService) { this.userService = userService; }
 
     @GetMapping("/all")
-    private List<User> getAllUsers() {
+    private List<UserBase> getAllUsers() {
         return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable("id") long id) {
-        User user = userService.getUserByIdOrError(id);
-        return user;
+    public UserBase getUserById(@PathVariable("id") long id) {
+        UserBase userBase = userService.getUserByIdOrError(id);
+        return userBase;
     }
 
     @GetMapping("/{id}/description")
     public String getUserStringByid(@PathVariable("id") long id) {
-        User user = userService.getUserByIdOrError(id);
-        return user.toString();
+        UserBase userBase = userService.getUserByIdOrError(id);
+        return userBase.toString();
     }
 
     @GetMapping()
-    public List<User> getUsersByName(@RequestParam("name") String name) {
+    public List<UserBase> getUsersByName(@RequestParam("name") String name) {
         return userService.getUsersByName(name);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
-        userService.add(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<?> addUser(@Valid @RequestBody UserBase userBase) {
+        userService.add(userBase);
+        return new ResponseEntity<>(userBase, HttpStatus.CREATED);
     }
 
     @GetMapping("/nextid")
     public long getNextId() { return userService.getNextId(); }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<?> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
-        User user = userService.getUserByIdOrError(id);
-        log.info(String.format("User: %s\nUserDto: %s", user.toString(), userDto.toString()));
-        userService.update(user, userDto);
-        return ResponseEntity.ok(user.toString() + " updated!");
+    public ResponseEntity<?> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserBaseDto userBaseDto) {
+        UserBase userBase = userService.getUserByIdOrError(id);
+        log.info(String.format("User: %s\nUserDto: %s", userBase.toString(), userBaseDto.toString()));
+        userService.update(userBase, userBaseDto);
+        return ResponseEntity.ok(userBase.toString() + " updated!");
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
-        User user = userService.getUserByIdOrError(id);
-        String deletionMsg = userService.delete(user);
+        UserBase userBase = userService.getUserByIdOrError(id);
+        String deletionMsg = userService.delete(userBase);
         return deletionMsg;
     }
 }

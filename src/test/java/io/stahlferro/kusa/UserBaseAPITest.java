@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserAPITest {
+public class UserBaseAPITest {
     @Autowired
     private MockMvc mockMvc;
 

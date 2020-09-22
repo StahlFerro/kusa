@@ -1,7 +1,7 @@
 package io.stahlferro.kusa.controllers.web;
 
-import io.stahlferro.kusa.models.User;
-import io.stahlferro.kusa.repositories.UserRepository;
+import io.stahlferro.kusa.models.UserBase;
+import io.stahlferro.kusa.repositories.UserBaseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,41 +21,41 @@ import java.util.List;
 public class WebUserController {
 
     @Autowired
-    public UserRepository userRepository;
+    public UserBaseRepository userBaseRepository;
 
     @GetMapping("/all")
     public String getAllUsers(Model model) {
-        List<User> users = userRepository.findAll();
-        model.addAttribute("users", users);
+        List<UserBase> userBases = userBaseRepository.findAll();
+        model.addAttribute("users", userBases);
         return "users";
     }
 
     @GetMapping("/{id}")
     public String getUserById(@PathVariable("id") long id, Model model) {
-        User user = userRepository.findById(id).orElseThrow(() ->
+        UserBase userBase = userBaseRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-        ArrayList<User> userList = new ArrayList<>();
-        userList.add(user);
-        model.addAttribute("users", userList);
+        ArrayList<UserBase> userBaseList = new ArrayList<>();
+        userBaseList.add(userBase);
+        model.addAttribute("users", userBaseList);
         return "users";
     }
 
     @GetMapping("/edit/{id}")
     public String editUserForm(@PathVariable("id") long id, Model model) {
-        User user = userRepository.findById(id).orElseThrow(() ->
+        UserBase userBase = userBaseRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-        model.addAttribute("user", user);
+        model.addAttribute("user", userBase);
         return "user_edit";
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id, @Valid User user, BindingResult result, Model model) {
-        log.info(user.getEmail());
+    public String updateUser(@PathVariable("id") long id, @Valid UserBase userBase, BindingResult result, Model model) {
+        log.info(userBase.getEmail());
         if (result.hasErrors()) {
-            user.setId(id);
+            userBase.setId(id);
             return "user_edit";
         }
-        userRepository.save(user);
+        userBaseRepository.save(userBase);
         return "redirect:/user/all";
     }
 }
