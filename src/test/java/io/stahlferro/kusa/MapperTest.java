@@ -25,6 +25,11 @@ public class MapperTest {
     private MockMvc mockMvc;
 
     @Test
+    public void userDtoPasswordShouldEncrypt() throws Exception {
+
+    }
+
+    @Test
     public void userDtoShouldUpdateUserEntity() throws Exception {
         UserBase userBase = new UserBase();
         userBase.setName("Malcolm");

@@ -48,10 +48,16 @@ public class APIUserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@Valid @RequestBody UserBase userBase) {
-        userBaseService.add(userBase);
-        return new ResponseEntity<>(userBase, HttpStatus.CREATED);
+    public ResponseEntity<String> addUser(@RequestBody UserBaseDto dto) throws Exception {
+        UserBase user = userBaseService.create(dto);
+        return new ResponseEntity<>("User Created", HttpStatus.CREATED);
     }
+
+//    @PostMapping("/add")
+//    public ResponseEntity<?> addUser(@Valid @RequestBody UserBase userBase) {
+//        userBaseService.add(userBase);
+//        return new ResponseEntity<>(userBase, HttpStatus.CREATED);
+//    }
 
     @GetMapping("/nextid")
     public long getNextId() { return userBaseService.getNextId(); }
