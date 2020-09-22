@@ -11,20 +11,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Entity
 @Getter @Setter @ToString
 public class UserBase {
     @Id
-    @GeneratedValue(generator = "user-generator")
-    @GenericGenerator(
-            name = "user-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @Parameter(name = "sequence_name", value = "user_sequence")
-            }
-    )
-    private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column(unique = true, nullable = false)
     private String loginName;

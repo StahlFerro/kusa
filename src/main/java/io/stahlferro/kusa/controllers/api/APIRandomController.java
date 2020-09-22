@@ -4,6 +4,8 @@ import io.stahlferro.kusa.services.RandomService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/random")
 public class APIRandomController {
@@ -19,7 +21,7 @@ public class APIRandomController {
     }
 
     @RequestMapping("/uuid")
-    public String randUUID() throws Exception {
+    public UUID randUUID() throws Exception {
         return randomService.generateRandomUUID();
     }
 }

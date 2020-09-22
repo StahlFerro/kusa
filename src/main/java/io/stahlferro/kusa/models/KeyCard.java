@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Entity
 @Getter @Setter @ToString
@@ -33,7 +34,8 @@ public class KeyCard {
 
     private int accessLevel;
 
-    private String uuid;
+    private UUID uuid;
+//    private String lockWiseInfo;
 
 //    public KeyCard () {
 //        this.uuid = randomService.generateRandomUUID();

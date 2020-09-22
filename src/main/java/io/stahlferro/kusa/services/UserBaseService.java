@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserBaseService {
@@ -26,17 +27,17 @@ public class UserBaseService {
         return repository.findAll();
     }
 
-    public Optional<UserBase> getUserById(long id) {
+    public Optional<UserBase> getUserById(UUID id) {
         return repository.findById(id);
     }
-    public UserBase getUserByIdOrError(long id) {
+    public UserBase getUserByIdOrError(UUID id) {
         UserBase userBase = getUserById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid KeyCard Id: " + id));
         return userBase;
     }
     public List<UserBase> getUsersByName(String name) { return repository.findByName(name); }
 
-    public long getNextId() { return repository.getNextId(); }
+//    public UUID getNextId() { return repository.getNextId(); }
 
     public UserBase getUserByLoginName(String loginName) {
         UserBase user = repository.findByLoginName(loginName);
@@ -49,9 +50,7 @@ public class UserBaseService {
 //    }
 
     public UserBase create(UserBaseDto dto) {
-        UserBase user = new UserBase();
-        user.setLoginName(dto.getLoginName());
-        user.setPasswordHash(bcryptEncoder.encode(dto.getPassword()));
+        UserBase user = mapper.createUserFromDto(dto);
         return repository.save(user);
     }
 

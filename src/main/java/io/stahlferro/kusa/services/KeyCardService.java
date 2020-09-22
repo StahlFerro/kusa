@@ -39,6 +39,11 @@ public class KeyCardService {
         return keyCard;
     }
 
+    public KeyCard create(KeyCardDto dto) {
+        KeyCard keyCard = mapper.createKeyCardFromDto(dto);
+        return repository.save(keyCard);
+    }
+
     public void update(KeyCard keyCard, KeyCardDto keyCardDto) {
         mapper.updateKeyCardFromDto(keyCardDto, keyCard);
         repository.save(keyCard);

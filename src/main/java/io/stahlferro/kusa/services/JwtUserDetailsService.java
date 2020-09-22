@@ -17,10 +17,6 @@ import java.util.ArrayList;
 // It overrides the loadUserByUsername for fetching user details from the database using the username, but for now it
 // fetches a hardcoded user list with a predefined user (username: pub, password: password)
 public class JwtUserDetailsService implements UserDetailsService {
-
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
-
     @Autowired
     private UserBaseService userBaseService;
 

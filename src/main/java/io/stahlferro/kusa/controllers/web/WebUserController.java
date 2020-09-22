@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -31,7 +32,7 @@ public class WebUserController {
     }
 
     @GetMapping("/{id}")
-    public String getUserById(@PathVariable("id") long id, Model model) {
+    public String getUserById(@PathVariable("id") UUID id, Model model) {
         UserBase userBase = userBaseRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         ArrayList<UserBase> userBaseList = new ArrayList<>();
@@ -41,21 +42,21 @@ public class WebUserController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editUserForm(@PathVariable("id") long id, Model model) {
+    public String editUserForm(@PathVariable("id") UUID id, Model model) {
         UserBase userBase = userBaseRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         model.addAttribute("user", userBase);
         return "user_edit";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id, @Valid UserBase userBase, BindingResult result, Model model) {
-        log.info(userBase.getEmail());
-        if (result.hasErrors()) {
-            userBase.setId(id);
-            return "user_edit";
-        }
-        userBaseRepository.save(userBase);
-        return "redirect:/user/all";
-    }
+//    @PostMapping("/update/{id}")
+//    public String updateUser(@PathVariable("id") long id, @Valid UserBase userBase, BindingResult result, Model model) {
+//        log.info(userBase.getEmail());
+//        if (result.hasErrors()) {
+//            userBase.setId(id);
+//            return "user_edit";
+//        }
+//        userBaseRepository.save(userBase);
+//        return "redirect:/user/all";
+//    }
 }

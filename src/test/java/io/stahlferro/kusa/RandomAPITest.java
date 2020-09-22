@@ -38,7 +38,7 @@ public class RandomAPITest {
 
     @Test
     public void generateRandomUUIDShouldMatchUUIDPattern() throws Exception {
-        when(randomService.generateRandomUUID()).thenReturn("e15892c2-1771-4657-9186-53b796028d12");
+        when(randomService.generateRandomUUID().toString()).thenReturn("e15892c2-1771-4657-9186-53b796028d12");
         this.mockMvc.perform(get("/api/random/uuid"))
                 .andDo(print())
                 .andExpect(status().isOk())

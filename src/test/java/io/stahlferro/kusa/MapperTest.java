@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j
+@SpringBootTest
 @AutoConfigureMockMvc
 public class MapperTest {
     private final UserBaseMapper userMapper = Mappers.getMapper(UserBaseMapper.class);
@@ -26,13 +28,18 @@ public class MapperTest {
     @Autowired
     private MockMvc mockMvc;
 
+//    @Test
+//    public void userMapperDependenciesShouldNotBeNull() throws Exception {
+//        assertThat(userMapper.bcryptEncoder).isNotNull();
+//    }
+
     @Test
     public void userDtoPasswordShouldEncrypt() throws Exception {
         UserBaseDto userDto = new UserBaseDto();
         userDto.setLoginName("Wysen");
         userDto.setPassword("abcdefgh12345");
         UserBase user = userMapper.createUserFromDto(userDto);
-        log.info(user.toString());
+        log.info("USER STRING\n" + user.toString());
         assertThat(user.getPasswordHash()).isNotEqualTo(userDto.getPassword());
     }
 

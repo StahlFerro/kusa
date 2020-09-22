@@ -13,7 +13,7 @@ public class RandomService {
         int max = 1000;
         return R.nextInt(max - min) + min;
     }
-    public String generateRandomUUID() {
-        return UUID.randomUUID().toString();
+    public UUID generateRandomUUID() {
+        return UUID.randomUUID();
     }
 }

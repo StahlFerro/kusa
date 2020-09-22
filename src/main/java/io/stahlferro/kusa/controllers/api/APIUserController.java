@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -31,13 +32,13 @@ public class APIUserController {
     }
 
     @GetMapping("/{id}")
-    public UserBase getUserById(@PathVariable("id") long id) {
+    public UserBase getUserById(@PathVariable("id") UUID id) {
         UserBase userBase = userBaseService.getUserByIdOrError(id);
         return userBase;
     }
 
     @GetMapping("/{id}/description")
-    public String getUserStringByid(@PathVariable("id") long id) {
+    public String getUserStringByid(@PathVariable("id") UUID id) {
         UserBase userBase = userBaseService.getUserByIdOrError(id);
         return userBase.toString();
     }
@@ -48,9 +49,15 @@ public class APIUserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addUser(@RequestBody UserBaseDto dto) throws Exception {
+    public ResponseEntity<UserBase> addUser(@Valid @RequestBody UserBaseDto dto) throws Exception {
         UserBase user = userBaseService.create(dto);
-        return new ResponseEntity<>("User Created", HttpStatus.CREATED);
+        log.info("DTO vs USER\n");
+        log.info(dto.getName() + " ------- " + user.getName() + "\n");
+        log.info(dto.getEmail() + " ------- " + user.getEmail() + "\n");
+        log.info(dto.getLoginName() + " ------- " + user.getLoginName() + "\n");
+        log.info(dto.getPassword() + " ------- " + user.getPasswordHash() + "\n");
+        log.info(userMapper.passwordEncoder + "\n");
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 //    @PostMapping("/add")
@@ -59,11 +66,11 @@ public class APIUserController {
 //        return new ResponseEntity<>(userBase, HttpStatus.CREATED);
 //    }
 
-    @GetMapping("/nextid")
-    public long getNextId() { return userBaseService.getNextId(); }
+//    @GetMapping("/nextid")
+//    public long getNextId() { return userBaseService.getNextId(); }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<?> partialUpdateUser(@PathVariable("id") long id, @RequestBody UserBaseDto userBaseDto) {
+    public ResponseEntity<?> partialUpdateUser(@PathVariable("id") UUID id, @RequestBody UserBaseDto userBaseDto) {
         UserBase userBase = userBaseService.getUserByIdOrError(id);
         log.info(String.format("User: %s\nUserDto: %s", userBase.toString(), userBaseDto.toString()));
         userBaseService.update(userBase, userBaseDto);
@@ -71,7 +78,7 @@ public class APIUserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
+    public String deleteUser(@PathVariable("id") UUID id) {
         UserBase userBase = userBaseService.getUserByIdOrError(id);
         String deletionMsg = userBaseService.delete(userBase);
         return deletionMsg;

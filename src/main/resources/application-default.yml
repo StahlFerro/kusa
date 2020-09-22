@@ -9,3 +9,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+jwt:
+  secret: ${KUSA_JWT_SECRET}
+logging:
+  level:
+    root: DEBUG
+test:
+  testLogging:
+    showStandardStreams: true

@@ -5,7 +5,8 @@ import io.stahlferro.kusa.models.KeyCardDto;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface KeyCardMapper {
+public abstract class KeyCardMapper {
+    public abstract KeyCard createKeyCardFromDto(KeyCardDto dto);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateKeyCardFromDto(KeyCardDto dto, @MappingTarget KeyCard keyCard);
+    public abstract void updateKeyCardFromDto(KeyCardDto dto, @MappingTarget KeyCard keyCard);
 }

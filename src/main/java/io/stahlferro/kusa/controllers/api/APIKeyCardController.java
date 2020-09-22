@@ -43,8 +43,8 @@ public class APIKeyCardController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addKeyCard(@Valid @RequestBody KeyCard keyCard) {
-        keyCardService.add(keyCard);
+    public ResponseEntity<?> addKeyCard(@Valid @RequestBody KeyCardDto dto) {
+        KeyCard keyCard = keyCardService.create(dto);
         return new ResponseEntity<>(keyCard, HttpStatus.CREATED);
     }
 
