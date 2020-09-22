@@ -1,11 +1,12 @@
 package io.stahlferro.kusa.services;
 
-import io.stahlferro.kusa.mappers.UserMapper;
+import io.stahlferro.kusa.mappers.UserBaseMapper;
 import io.stahlferro.kusa.models.UserBase;
 import io.stahlferro.kusa.models.UserBaseDto;
 import io.stahlferro.kusa.repositories.UserBaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,11 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserBaseService {
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
     @Autowired
     public UserBaseRepository repository;
     @Autowired
-    public UserMapper mapper;
+    public UserBaseMapper mapper;
 
     public List<UserBase> getAll() {
         return repository.findAll();
@@ -37,6 +40,13 @@ public class UserService {
     public UserBase add(UserBase userBase) {
         repository.save(userBase);
         return userBase;
+    }
+
+    public UserBase create(UserBaseDto dto) {
+        UserBase user = new UserBase();
+        user.setLoginName(dto.getLoginName());
+        user.setPasswordHash(bcryptEncoder.encode(dto.getPassword()));
+        return repository.save(user);
     }
 
     public void update(UserBase userBase, UserBaseDto userBaseDto) {

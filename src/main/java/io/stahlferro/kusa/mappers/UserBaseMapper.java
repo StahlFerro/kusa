@@ -5,7 +5,7 @@ import io.stahlferro.kusa.models.UserBaseDto;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
+public interface UserBaseMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUserFromDto(UserBaseDto dto, @MappingTarget UserBase userBase);
 }

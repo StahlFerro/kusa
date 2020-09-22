@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.stahlferro.kusa.controllers.api.APIKeyCardController;
 import io.stahlferro.kusa.controllers.api.APIUserController;
-import io.stahlferro.kusa.mappers.UserMapper;
+import io.stahlferro.kusa.mappers.UserBaseMapper;
 import io.stahlferro.kusa.repositories.UserBaseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class AutowiringTest {
 	private UserBaseRepository userBaseRepository;
 
 	@Autowired
-	private UserMapper userMapper;
+	private UserBaseMapper userMapper;
 
 	@Test
 	/* Ensures the application context always start */

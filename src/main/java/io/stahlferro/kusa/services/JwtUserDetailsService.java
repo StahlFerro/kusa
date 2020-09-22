@@ -32,12 +32,5 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
         return new User(user.getLoginName(), user.getPasswordHash(), new ArrayList<>());
     }
-
-    public UserBase createUser(UserBaseDto dto) {
-        UserBase user = new UserBase();
-        user.setLoginName(dto.getLoginName());
-        user.setPasswordHash(bcryptEncoder.encode(dto.getPassword()));
-        return repository.save(user);
-    }
 }
 

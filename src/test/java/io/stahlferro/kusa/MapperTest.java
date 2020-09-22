@@ -1,7 +1,7 @@
 package io.stahlferro.kusa;
 
 import io.stahlferro.kusa.mappers.KeyCardMapper;
-import io.stahlferro.kusa.mappers.UserMapper;
+import io.stahlferro.kusa.mappers.UserBaseMapper;
 import io.stahlferro.kusa.models.KeyCard;
 import io.stahlferro.kusa.models.KeyCardDto;
 import io.stahlferro.kusa.models.UserBase;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
 public class MapperTest {
-    private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private final UserBaseMapper userMapper = Mappers.getMapper(UserBaseMapper.class);
     private final KeyCardMapper keyCardMapper = Mappers.getMapper(KeyCardMapper.class);
     @Autowired
     private MockMvc mockMvc;
