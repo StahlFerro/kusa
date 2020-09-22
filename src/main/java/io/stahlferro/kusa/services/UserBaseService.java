@@ -37,10 +37,16 @@ public class UserBaseService {
     public List<UserBase> getUsersByName(String name) { return repository.findByName(name); }
 
     public long getNextId() { return repository.getNextId(); }
-    public UserBase add(UserBase userBase) {
-        repository.save(userBase);
-        return userBase;
+
+    public UserBase getUserByLoginName(String loginName) {
+        UserBase user = repository.findByLoginName(loginName);
+        return user;
     }
+
+//    public UserBase add(UserBase userBase) {
+//        repository.save(userBase);
+//        return userBase;
+//    }
 
     public UserBase create(UserBaseDto dto) {
         UserBase user = new UserBase();
