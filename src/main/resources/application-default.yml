@@ -13,7 +13,7 @@ jwt:
   secret: ${KUSA_JWT_SECRET}
 logging:
   level:
-    root: DEBUG
+    root: INFO
 test:
   testLogging:
     showStandardStreams: true

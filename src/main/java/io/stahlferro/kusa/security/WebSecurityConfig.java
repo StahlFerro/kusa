@@ -27,14 +27,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private UserDetailsService userDetailsService;
     @Autowired
     private JwtAuthEntryPoint jwtAuthEntryPoint;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
     @Autowired
     private void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         String[] excludedPaths = new String[]{
-                "/api/**"
+                "/api/user/add"
         };
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request

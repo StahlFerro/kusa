@@ -6,6 +6,7 @@ import io.stahlferro.kusa.controllers.api.APIKeyCardController;
 import io.stahlferro.kusa.controllers.api.APIUserController;
 import io.stahlferro.kusa.mappers.UserBaseMapper;
 import io.stahlferro.kusa.repositories.UserBaseRepository;
+import io.stahlferro.kusa.services.JwtUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,9 @@ public class AutowiringTest {
 	@Autowired
 	private UserBaseMapper userMapper;
 
+	@Autowired
+	private JwtUserDetailsService jwtUserDetailsService;
+
 	@Test
 	/* Ensures the application context always start */
 	void controllerIsNotNull() throws Exception {
@@ -32,5 +36,6 @@ public class AutowiringTest {
 		assertThat(keyCardController).isNotNull();
 		assertThat(userBaseRepository).isNotNull();
 		assertThat(userMapper).isNotNull();
+		assertThat(jwtUserDetailsService).isNotNull();
 	}
 }

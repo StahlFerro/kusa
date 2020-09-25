@@ -1,12 +1,20 @@
 package io.stahlferro.kusa;
 
+import io.stahlferro.kusa.controllers.api.APIKeyCardController;
+import io.stahlferro.kusa.mappers.KeyCardMapper;
+import io.stahlferro.kusa.security.JwtTokenUtil;
+import io.stahlferro.kusa.services.JwtUserDetailsService;
+import io.stahlferro.kusa.services.KeyCardService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -15,13 +23,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @Slf4j
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(value = APIKeyCardController.class)
 public class KeyCardAPITest {
+    @MockBean
+    private KeyCardService keyCardService;
+    @MockBean
+    private KeyCardMapper keyCardMapper;
+    @MockBean
+    private JwtUserDetailsService jwtUserDetailsService;
+    @MockBean
+    private JwtTokenUtil jwtTokenUtil;
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser
     public void postKeyCardShouldCreateKeyCardThenDeleteIt() throws Exception {
         String newKeyCard = new JSONObject()
                 .put("name", "Dimensional Research Lab")
