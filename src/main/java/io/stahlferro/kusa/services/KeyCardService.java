@@ -34,7 +34,7 @@ public class KeyCardService {
         return keyCard;
     }
     public KeyCard add(KeyCard keyCard) {
-        keyCard.setUuid(randomService.generateRandomUUID());
+//        keyCard.setUuid(randomService.generateRandomUUID());
         repository.save(keyCard);
         return keyCard;
     }

@@ -5,7 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,24 +19,18 @@ import java.util.UUID;
 public class KeyCard {
 //    @Autowired
 //    private RandomService randomService;
-
     @Id
-    @GeneratedValue(generator = "keycard-generator")
-    @GenericGenerator(
-            name = "keycard-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @Parameter(name = "sequence_name", value = "keycard_sequence")
-            }
-    )
-    private long id;
+    @Type(type = "uuid-char")
+    @Column(length = 36, updatable = false, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @NotEmpty(message = "Name must not be empty!")
     private String name;
 
     private int accessLevel;
 
-    private UUID uuid;
 //    private String lockWiseInfo;
 
 //    public KeyCard () {

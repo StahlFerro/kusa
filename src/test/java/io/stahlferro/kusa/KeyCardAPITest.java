@@ -7,7 +7,9 @@ import io.stahlferro.kusa.services.JwtUserDetailsService;
 import io.stahlferro.kusa.services.KeyCardService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,25 +19,30 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 
 @Slf4j
-@WebMvcTest(value = APIKeyCardController.class)
+@SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class KeyCardAPITest {
-    @MockBean
-    private KeyCardService keyCardService;
-    @MockBean
-    private KeyCardMapper keyCardMapper;
-    @MockBean
-    private JwtUserDetailsService jwtUserDetailsService;
-    @MockBean
-    private JwtTokenUtil jwtTokenUtil;
-
     @Autowired
+    private WebApplicationContext context;
+
     private MockMvc mockMvc;
+
+    @BeforeAll
+    public void setup() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @Test
     @WithMockUser
@@ -53,12 +60,11 @@ public class KeyCardAPITest {
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value("Dimensional Research Lab"))
                 .andExpect(jsonPath("$.accessLevel").value(240))
-                .andExpect(jsonPath("$.uuid").exists())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
         JSONObject savedKeyCardJSON = new JSONObject(content);
-        long savedKeyCardId = savedKeyCardJSON.getLong("id");
+        String savedKeyCardId = savedKeyCardJSON.getString("id");
 
         this.mockMvc.perform(delete("/api/keycard/delete/" + savedKeyCardId))
                 .andExpect(status().isOk());
@@ -69,6 +75,7 @@ public class KeyCardAPITest {
     }
 
     @Test
+    @WithMockUser
     public void patchKeyCardShouldUpdateKeyCardThenDeleteIt() throws Exception {
         String newKeyCard = new JSONObject()
                 .put("name", "Antimatter Engine Room")
@@ -83,12 +90,11 @@ public class KeyCardAPITest {
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value("Antimatter Engine Room"))
                 .andExpect(jsonPath("$.accessLevel").value(251))
-                .andExpect(jsonPath("$.uuid").exists())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
         JSONObject savedKeyCardJSON = new JSONObject(content);
-        long savedKeyCardId = savedKeyCardJSON.getLong("id");
+        String savedKeyCardId = savedKeyCardJSON.getString("id");
 
         String newData = new JSONObject()
                 .put("name", "Antimatter Core Storage")
@@ -104,8 +110,7 @@ public class KeyCardAPITest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.name").value("Antimatter Core Storage"))
-                .andExpect(jsonPath("$.accessLevel").value(220))
-                .andExpect(jsonPath("$.uuid").value(savedKeyCardJSON.get("uuid")));
+                .andExpect(jsonPath("$.accessLevel").value(220));
 
         this.mockMvc.perform(delete("/api/keycard/delete/" + savedKeyCardId))
                 .andExpect(status().isOk());

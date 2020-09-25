@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.UUID;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -60,7 +62,7 @@ public class UserBaseAPITest {
 
         String content = result.getResponse().getContentAsString();
         JSONObject savedUserJSON = new JSONObject(content);
-        long savedUserId = savedUserJSON.getLong("id");
+        String savedUserId = savedUserJSON.getString("id");
 
         this.mockMvc.perform(delete("/api/user/delete/" + savedUserId))
                 .andExpect(status().isOk());
@@ -69,10 +71,13 @@ public class UserBaseAPITest {
     }
 
     @Test
+    @WithMockUser
     public void patchUserAPIShouldUpdateUserThenDeleteIt() throws Exception {
         String newUser = new JSONObject()
                 .put("name", "Schwarz")
                 .put("email", "schwarz@siesta.com")
+                .put("loginName", "schwarz")
+                .put("password", "ceylon")
                 .toString();
 
         MvcResult result = this.mockMvc.perform(post("/api/user/add")
@@ -88,7 +93,7 @@ public class UserBaseAPITest {
 
         String content = result.getResponse().getContentAsString();
         JSONObject savedUserJSON = new JSONObject(content);
-        long savedUserId = savedUserJSON.getLong("id");
+        String savedUserId = savedUserJSON.getString("id");
 
         String newEmail = new JSONObject().put("email", "schwarz@rhodesisland.com").toString();
 

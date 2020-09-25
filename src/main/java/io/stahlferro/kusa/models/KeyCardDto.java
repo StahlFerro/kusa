@@ -10,6 +10,5 @@ import java.util.UUID;
 public class KeyCardDto {
     private String name;
     private int accessLevel;
-    private UUID uuid;
 //    private String lockWise;
 }
