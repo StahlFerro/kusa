@@ -21,12 +21,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-@AutoConfigureMockMvc
 public class MapperTest {
-    private final UserBaseMapper userMapper = Mappers.getMapper(UserBaseMapper.class);
-    private final KeycardMapper keycardMapper = Mappers.getMapper(KeycardMapper.class);
     @Autowired
-    private MockMvc mockMvc;
+    private UserBaseMapper userMapper;
+    @Autowired
+    private KeycardMapper keycardMapper;
+//    private final UserBaseMapper userMapper = Mappers.getMapper(UserBaseMapper.class);
+//    private final KeycardMapper keycardMapper = Mappers.getMapper(KeycardMapper.class);
 
 //    @Test
 //    public void userMapperDependenciesShouldNotBeNull() throws Exception {
