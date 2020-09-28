@@ -1,9 +1,9 @@
 package io.stahlferro.kusa;
 
-import io.stahlferro.kusa.mappers.KeyCardMapper;
+import io.stahlferro.kusa.mappers.KeycardMapper;
 import io.stahlferro.kusa.mappers.UserBaseMapper;
-import io.stahlferro.kusa.models.KeyCard;
-import io.stahlferro.kusa.models.KeyCardDto;
+import io.stahlferro.kusa.models.Keycard;
+import io.stahlferro.kusa.models.KeycardDto;
 import io.stahlferro.kusa.models.UserBase;
 import io.stahlferro.kusa.models.UserBaseDto;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 public class MapperTest {
     private final UserBaseMapper userMapper = Mappers.getMapper(UserBaseMapper.class);
-    private final KeyCardMapper keyCardMapper = Mappers.getMapper(KeyCardMapper.class);
+    private final KeycardMapper keycardMapper = Mappers.getMapper(KeycardMapper.class);
     @Autowired
     private MockMvc mockMvc;
 
@@ -57,16 +57,16 @@ public class MapperTest {
     }
 
     @Test
-    public void keyCardDtoShouldUpdateKeyCardEntity() throws Exception {
-        KeyCard keyCard = new KeyCard();
-        keyCard.setName("Biolabs Green Access");
-        keyCard.setAccessLevel(50);
-        KeyCardDto keyCardDto = new KeyCardDto();
-        keyCardDto.setName("Biolabs Red Access");
-        keyCardDto.setAccessLevel(81);
-        keyCardMapper.updateKeyCardFromDto(keyCardDto, keyCard);
-        assertThat(keyCard.getName()).isEqualTo(keyCardDto.getName());
-        assertThat(keyCard.getAccessLevel()).isEqualTo(keyCardDto.getAccessLevel());
+    public void keycardDtoShouldUpdateKeyCardEntity() throws Exception {
+        Keycard keycard = new Keycard();
+        keycard.setName("Biolabs Green Access");
+        keycard.setAccessLevel(50);
+        KeycardDto keycardDto = new KeycardDto();
+        keycardDto.setName("Biolabs Red Access");
+        keycardDto.setAccessLevel(81);
+        keycardMapper.updateKeycardFromDto(keycardDto, keycard);
+        assertThat(keycard.getName()).isEqualTo(keycardDto.getName());
+        assertThat(keycard.getAccessLevel()).isEqualTo(keycardDto.getAccessLevel());
     }
 
 //    @Test

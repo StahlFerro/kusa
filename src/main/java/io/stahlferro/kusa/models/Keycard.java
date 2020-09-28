@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Entity
 @Getter @Setter @ToString
-public class KeyCard {
+public class Keycard {
 //    @Autowired
 //    private RandomService randomService;
     @Id

@@ -1,20 +1,12 @@
 package io.stahlferro.kusa;
 
-import io.stahlferro.kusa.controllers.api.APIKeyCardController;
-import io.stahlferro.kusa.mappers.KeyCardMapper;
-import io.stahlferro.kusa.security.JwtTokenUtil;
-import io.stahlferro.kusa.services.JwtUserDetailsService;
-import io.stahlferro.kusa.services.KeyCardService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,7 +22,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @Slf4j
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class KeyCardAPITest {
+public class KeycardAPITest {
     @Autowired
     private WebApplicationContext context;
 
@@ -47,13 +39,13 @@ public class KeyCardAPITest {
     @Test
     @WithMockUser
     public void postKeyCardShouldCreateKeyCardThenDeleteIt() throws Exception {
-        String newKeyCard = new JSONObject()
+        String newKeycard = new JSONObject()
                 .put("name", "Dimensional Research Lab")
                 .put("accessLevel", 240).toString();
 
         MvcResult result = this.mockMvc.perform(post("/api/keycard/add")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(newKeyCard)
+                .content(newKeycard)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -63,8 +55,8 @@ public class KeyCardAPITest {
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
-        JSONObject savedKeyCardJSON = new JSONObject(content);
-        String savedKeyCardId = savedKeyCardJSON.getString("id");
+        JSONObject savedKeycardJSON = new JSONObject(content);
+        String savedKeyCardId = savedKeycardJSON.getString("id");
 
         this.mockMvc.perform(delete("/api/keycard/delete/" + savedKeyCardId))
                 .andExpect(status().isOk());
@@ -77,13 +69,13 @@ public class KeyCardAPITest {
     @Test
     @WithMockUser
     public void patchKeyCardShouldUpdateKeyCardThenDeleteIt() throws Exception {
-        String newKeyCard = new JSONObject()
+        String newKeycard = new JSONObject()
                 .put("name", "Antimatter Engine Room")
                 .put("accessLevel", 251).toString();
 
         MvcResult result = this.mockMvc.perform(post("/api/keycard/add")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(newKeyCard)
+                .content(newKeycard)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -93,8 +85,8 @@ public class KeyCardAPITest {
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
-        JSONObject savedKeyCardJSON = new JSONObject(content);
-        String savedKeyCardId = savedKeyCardJSON.getString("id");
+        JSONObject savedKeycardJSON = new JSONObject(content);
+        String savedKeyCardId = savedKeycardJSON.getString("id");
 
         String newData = new JSONObject()
                 .put("name", "Antimatter Core Storage")

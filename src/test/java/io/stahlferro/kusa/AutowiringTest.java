@@ -2,7 +2,7 @@ package io.stahlferro.kusa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.stahlferro.kusa.controllers.api.APIKeyCardController;
+import io.stahlferro.kusa.controllers.api.APIKeycardController;
 import io.stahlferro.kusa.controllers.api.APIUserController;
 import io.stahlferro.kusa.mappers.UserBaseMapper;
 import io.stahlferro.kusa.repositories.UserBaseRepository;
@@ -18,7 +18,7 @@ public class AutowiringTest {
 	private APIUserController userController;
 
 	@Autowired
-	private APIKeyCardController keyCardController;
+	private APIKeycardController keycardController;
 
 	@Autowired
 	private UserBaseRepository userBaseRepository;
@@ -33,7 +33,7 @@ public class AutowiringTest {
 	/* Ensures the application context always start */
 	void controllerIsNotNull() throws Exception {
 		assertThat(userController).isNotNull();
-		assertThat(keyCardController).isNotNull();
+		assertThat(keycardController).isNotNull();
 		assertThat(userBaseRepository).isNotNull();
 		assertThat(userMapper).isNotNull();
 		assertThat(jwtUserDetailsService).isNotNull();
