@@ -59,4 +59,5 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-database-kusa:3306/kusaDB?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=kusauser
       - SPRING_DATASOURCE_PASSWORD=toor
+      - JWT_SECRET=kusa
     restart: on-failure
