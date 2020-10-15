@@ -16,15 +16,9 @@ import java.util.UUID;
 
 @Entity
 @Getter @Setter @ToString
-public class Keycard {
+public class Keycard extends BasePrimaryModel {
 //    @Autowired
 //    private RandomService randomService;
-    @Id
-    @Type(type = "uuid-char")
-    @Column(length = 36, updatable = false, nullable = false)
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
 
     @NotEmpty(message = "Name must not be empty!")
     private String name;
