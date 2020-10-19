@@ -17,7 +17,13 @@ import java.util.UUID;
 
 @Entity
 @Getter @Setter @ToString
-public class UserBase extends BasePrimaryModel {
+public class UserBase {
+    @Id
+    @Type(type = "uuid-char")
+    @Column(length = 36, updatable = false, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(unique = true, nullable = false)
     private String loginName;
