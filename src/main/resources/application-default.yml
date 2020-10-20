@@ -9,11 +9,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  liquibase:
-    changeLog: "classpath:db/migration/liquibase-master-changelog.sql"
-    databaseChangeLog:
-      - includeAll:
-          path: db/changelog
 jwt:
   secret: ${KUSA_JWT_SECRET}
 logging:
