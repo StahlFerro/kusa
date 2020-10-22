@@ -52,12 +52,14 @@ services:
     ports:
       - '5432:5432'
     volumes:
-    - './postgresql_master_data:/bitnami/postgresql'
+      - type: bind
+        source: './postgresql_master_data/conf'
+        target: '/bitnami/postgresql/conf'
     environment:
       - POSTGRESQL_DATABASE=kusa_db
       - POSTGRESQL_USERNAME=postgres
       - POSTGRESQL_PASSWORD=root
-      - ALLOW_EMPTY_PASSWORD=yes
+    restart: on-failure
 
   kusa-main:
     image: stahlferro/kusa-docker
@@ -73,6 +75,6 @@ services:
       - JWT_SECRET=kusa
     restart: on-failure
 
-volumes:
-  postgresql_master_data:
-    driver: local
+#volumes:
+#  postgresql_master_data:
+#    driver: local
