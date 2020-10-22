@@ -1,12 +1,25 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id "org.flywaydb.flyway" version "6.5.1"
 	id 'java'
 }
 
 group = 'io.stahlferro'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+flyway {
+	def per_db_url = System.getenv('KUSA_DB_URL');
+	def per_db_username = System.getenv('KUSA_DB_USERNAME');
+	def per_db_password = System.getenv('KUSA_DB_PASSWORD');
+	if (per_db_url) { url = per_db_url; }
+	else { url = System.getenv('DB_URL'); }
+	if (per_db_username) { user = per_db_username; }
+	else { user = System.getenv('DB_USERNAME'); }
+	if (per_db_password) { password = per_db_password; }
+	else { password = System.getenv('DB_PASSWORD'); }
+}
 
 repositories {
 	mavenCentral()
