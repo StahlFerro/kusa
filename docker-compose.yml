@@ -35,29 +35,46 @@ services:
 
   # 2nd option: Use a mysql image
 
-  mysql-database-kusa:
-    image: 'mysql:latest'
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=kusaDB
-      - MYSQL_USER=kusauser
-      - MYSQL_PASSWORD=toor
-    volumes:
-      - /data/mysql
+#  mysql-database-kusa:
+#    image: 'mysql:latest'
+#    ports:
+#      - 3306:3306
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=toor
+#      - MYSQL_DATABASE=kusaDB
+#      - MYSQL_USER=kusauser
+#      - MYSQL_PASSWORD=toor
+#    volumes:
+#      - /data/mysql
 
+  postgresql-db-kusa:
+    image: 'bitnami/postgresql:12.4.0'
+    ports:
+      - '5432:5432'
+    volumes:
+      - type: bind
+        source: './postgresql_master_data/conf'
+        target: '/bitnami/postgresql/conf'
+    environment:
+      - POSTGRESQL_DATABASE=kusa_db
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=root
+    restart: on-failure
 
   kusa-main:
     image: stahlferro/kusa-docker
     depends_on:
-      - mysql-database-kusa
+      - postgresql-db-kusa
     hostname: kusa-host
     ports:
       - 8080:8080
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-database-kusa:3306/kusaDB?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=kusauser
-      - SPRING_DATASOURCE_PASSWORD=toor
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql-db-kusa:5432/kusa_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
       - JWT_SECRET=kusa
     restart: on-failure
+
+#volumes:
+#  postgresql_master_data:
+#    driver: local

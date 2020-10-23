@@ -8,7 +8,15 @@ spring:
       detection-strategy: annotated
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl: update
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: update
+              create-target: update.ddl
 jwt:
   secret: ${KUSA_JWT_SECRET}
 logging:
